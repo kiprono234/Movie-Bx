@@ -1,8 +1,8 @@
-import React from "react";
+import React,{useState} from "react";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as Yup from "yup";
-import { Link } from "react-router-dom";
+import { Link,useNavigate } from "react-router-dom";
 
 const schema = Yup.object().shape({
   email: Yup.string().email("Invalid email").required("Email is required"),
@@ -10,15 +10,43 @@ const schema = Yup.object().shape({
 });
 
 const Login = () => {
+  const navigate=useNavigate();
+  const [serverError, setServerError] = useState(""); 
   const { register, handleSubmit, formState: { errors } } = useForm({
     resolver: yupResolver(schema),
     mode:"onBlur"
   });
 
-  const onSubmit = (data) => {
-    console.log("Login data:", data);
-    // TODO: call backend API and handle authentication
-  };
+const onSubmit = async (data) => {
+  setServerError("");
+  try {
+    const response = await fetch("http://127.0.0.1:5000/login", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(data),
+    });
+
+    let result;
+    try {
+      result = await response.json();
+    } catch {
+      result = {};
+    }
+
+    if (!response.ok) {
+      setServerError(result.error || "Invalid email or password");
+      return;
+    }
+
+    console.log("✅ Login success:", result);
+    localStorage.setItem("token", result.token);
+    navigate("/");
+
+  } catch (error) {
+    setServerError("An unexpected error occurred. Please try again.");
+    console.error("🚨 Unexpected error:", error.message);
+  }
+};
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-100">
@@ -51,6 +79,9 @@ const Login = () => {
           >
             Login
           </button>
+            {serverError && (
+            <p className="text-red-500 text-center text-sm mt-2">{serverError}</p>
+          )}
         </form>
 
         <p className="text-center mt-4 text-sm text-gray-600">

@@ -1,8 +1,8 @@
-import React from "react";
+import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as Yup from "yup";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const schema = Yup.object().shape({
   name: Yup.string()
@@ -24,14 +24,42 @@ const schema = Yup.object().shape({
 });
 
 const Register = () => {
+  const navigate = useNavigate();
+  const [serverError, setServerError] = useState(""); 
   const { register, handleSubmit, formState: { errors } } = useForm({
     resolver: yupResolver(schema),
-    mode:"onBlur"
+    mode: "onBlur"
   });
 
-  const onSubmit = (data) => {
-    console.log("Register data:", data);
-    // TODO: connect to backend API securely
+  const onSubmit = async (data) => {
+    setServerError(""); // clear old error
+    try {
+      const response = await fetch("http://127.0.0.1:5000/signup", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          username: data.name,
+          email: data.email,
+          password: data.password,
+        }),
+      });
+
+      const result = await response.json();
+
+      if (!response.ok) {
+        setServerError(result.error || "Registration failed"); // 👈 Display message below button
+        return;
+      }
+
+      console.log("✅ Registered successfully:", result);
+      navigate("/login");
+
+    } catch (error) {
+      setServerError("An unexpected error occurred. Please try again.");
+      console.error("🚨 Unexpected error:", error.message);
+    }
   };
 
   return (
@@ -85,6 +113,11 @@ const Register = () => {
           >
             Register
           </button>
+
+          {/* 👇 Error message from backend */}
+          {serverError && (
+            <p className="text-red-500 text-center text-sm mt-2">{serverError}</p>
+          )}
         </form>
 
         <p className="text-center mt-4 text-sm text-gray-600">
