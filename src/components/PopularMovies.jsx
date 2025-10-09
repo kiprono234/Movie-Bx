@@ -115,7 +115,74 @@ const movies = [
     year: 2023,
     image: "https://play-lh.googleusercontent.com/EM0a107skGBu3o05dF0sA09_3iCI_d1T5nzh41tZ5nRcwUFwURxt1DlLCzz3hpUpYiBXoOvwIsdkojvlBuw",
     trailerUrl: "https://youtu.be/yBnTqn0lBDA?si=50RYz9S48t2axN8j",
-    }
+    },
+    {
+    title: "The Hunger Games: The Ballad of Songbirds & Snakes",
+    year: 2023,
+    image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ0TpRf67TUs5W2kTXI470ZNhXy3qjdWtAalA&s",
+    trailerUrl: "https://youtu.be/7Pq-S557XQU?si=8b1eX1d8b0b0iW9n",
+    },
+    {
+    title: "Wonka",
+    year: 2023,
+    image: "https://m.media-amazon.com/images/I/81CPaNJxW5L._UF894,1000_QL80_.jpg",
+    trailerUrl: "https://youtu.be/otNh9bTjXWg?si=R9Se8X1nlnFqLsxc",
+    },
+    {
+    title: "The Little Mermaid",
+    year: 2023,
+    image: "https://i5.walmartimages.com/seo/Little-Mermaid-DVD_1385ed74-8bca-494f-a779-085e8d30cce5.5914d4385c5c715b088cecb8d83e69a4.jpeg",
+    trailerUrl: "https://youtu.be/kpGo2_d3oYE?si=AfbN4Wu9Q26NaWFl",
+    },
+    {
+    title: "Elemental",
+    year: 2023,
+    image: "https://upload.wikimedia.org/wikipedia/en/4/4d/Elemental_final_poster.jpg",
+    trailerUrl: "https://youtu.be/hXzcyx9V0xw?si=YRySfvHDS6eEImAh",
+    },
+    {
+    title: "Haunted Mansion",
+    year: 2023,
+    image: "https://upload.wikimedia.org/wikipedia/en/3/31/Haunted_Mansion_%282023%29_poster.jpg",
+    trailerUrl: "https://youtu.be/U32Law7K-b8?si=RYk6nTHNz-7HI7FW",
+    },
+    {
+    title: "Wish",
+    year: 2023,
+    image: "https://upload.wikimedia.org/wikipedia/en/thumb/d/de/WishMoviePoster.jpg/250px-WishMoviePoster.jpg",
+    trailerUrl: "https://youtu.be/sBBchS3U6gQ?si=9iu_wpz7IUGs_yN7",
+    },
+    {
+    title: "The Exorcist: Believer",
+    year: 2023,
+    image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSjnXkw-1oZynLGqhRa7DKNuVfjlNffv5C-mQ&s",
+    trailerUrl: "https://youtu.be/PIxpPMyGcpU?si=gDx5Y74ds_1n8KaT",
+    },
+    {
+    title: "Insidious: The Red Door",
+    year: 2023,
+    image: "https://m.media-amazon.com/images/M/MV5BMGExMzQ2NWYtMjk2My00YzczLTk0MGQtYzliNDU3ZjU1NDU1XkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg",
+    trailerUrl: "https://youtu.be/ZuQuOnYnr3Q?si=CsThgq-p-hgBrzJ7",
+    },
+    {
+    title: "The Nun II",
+    year: 2023,
+    image: "https://m.media-amazon.com/images/S/pv-target-images/eb13e16eb30f2f9ebf65d70f7e5524c5bb41c67d6be7a736037e36d6e7c49c1f.jpg",
+    trailerUrl: "https://youtu.be/t6l57hwM5mE?si=XqqFhS18Qd4AzQ4M",
+    },
+    {
+    title: "Cocaine Bear",
+    year: 2023,
+    image: "https://m.media-amazon.com/images/M/MV5BMjg3MmNiNWQtOWI1OS00MjE2LWFhYzYtMWY0NWRhZmVkMGFiXkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg",
+    trailerUrl: "https://youtu.be/DuWEEKeJLMI?si=67Y0Vg6ADlu-17CH",
+    },
+    {
+    title: "Renfield",
+    year: 2023,
+    image: "https://m.media-amazon.com/images/S/pv-target-images/5cf943629d13ac80401602e4f94603456e4f5180f09c132ac58e7f4ab367b4b8.jpg",
+    trailerUrl: "https://youtu.be/6LmO6rmDW08?si=pY1Fe1ksaojJEyb7",
+    },
+    
     
 ];
 
