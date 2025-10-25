@@ -39,7 +39,8 @@ const onSubmit = async (data) => {
     }
 
     console.log("✅ Login success:", result);
-    localStorage.setItem("token", result.token);
+    localStorage.setItem("access_token", result.access_token);
+
     navigate("/");
 
   } catch (error) {
@@ -86,8 +87,8 @@ const onSubmit = async (data) => {
 
         <p className="text-center mt-4 text-sm text-gray-600">
           Don't have an account?{" "}
-          <Link to="/register" className="text-blue-600 hover:underline">
-            Register
+          <Link to="/signup" className="text-blue-600 hover:underline">
+            SignUp
           </Link>
         </p>
       </div>

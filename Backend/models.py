@@ -6,11 +6,13 @@ db=SQLAlchemy()
 
 
 class User(db.Model) :
-    __tablename__="Users"
+    __tablename__="users"
     id=db.Column(db.Integer,primary_key=True)
     username=db.Column(db.String(80), unique=True, nullable=False)
     email=db.Column(db.String(120), unique=True, nullable= False)
     password_hash=db.Column(db.String(200),nullable=False)
+
+    watchlist = db.relationship("Watchlist", backref="user",cascade="all, delete-orphan", lazy=True)
 
     def set_password(self,password):
         """Hash and store the password securely"""
@@ -23,14 +25,24 @@ class User(db.Model) :
     def to_dict(self):
         return{"id": self.id, "username": self.username, "email": self.email}
 
+class Watchlist(db.Model):
+    __tablename__ = 'watchlist'
 
-class Movie(db.Model):
-    __tablename__="Movies"
+    id = db.Column(db.Integer, primary_key=True)
+    movie_id = db.Column(db.Integer, unique=True)
+    title = db.Column(db.String, nullable=False)
+    poster = db.Column(db.String)
+    overview = db.Column(db.String)
+    release_date = db.Column(db.String)
 
-    id=db.Column(db.Integer, primary_key=True)
-    title=db.Column(db.String(120), nullable=False)
-    genre= db.Column(db.String(80),nullable=False)
-    year=db.Column(db.Integer, nullable=False)
+    user_id = db.Column(db.Integer, db.ForeignKey("users.id"), nullable=False)
 
     def to_dict(self):
-        return{"id": self.id, "title": self.title, "genre": self.genre,"year":self.year}
+        return {
+            "id": self.id,
+            "movie_id": self.movie_id,
+            "title": self.title,
+            "poster": self.poster,
+            "overview": self.overview,
+            "release_date": self.release_date
+        }

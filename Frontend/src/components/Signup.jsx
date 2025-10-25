@@ -23,22 +23,20 @@ const schema = Yup.object().shape({
     .required("Confirm password is required"),
 });
 
-const Register = () => {
+const Signup = () => {
   const navigate = useNavigate();
-  const [serverError, setServerError] = useState(""); 
+  const [serverError, setServerError] = useState("");
   const { register, handleSubmit, formState: { errors } } = useForm({
     resolver: yupResolver(schema),
-    mode: "onBlur"
+    mode: "onBlur",
   });
 
   const onSubmit = async (data) => {
-    setServerError(""); // clear old error
+    setServerError("");
     try {
       const response = await fetch("http://127.0.0.1:5000/signup", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           username: data.name,
           email: data.email,
@@ -49,13 +47,12 @@ const Register = () => {
       const result = await response.json();
 
       if (!response.ok) {
-        setServerError(result.error || "Registration failed"); // 👈 Display message below button
+        setServerError(result.error || "Signup failed");
         return;
       }
 
-      console.log("✅ Registered successfully:", result);
+      console.log("✅ Signup successful:", result);
       navigate("/login");
-
     } catch (error) {
       setServerError("An unexpected error occurred. Please try again.");
       console.error("🚨 Unexpected error:", error.message);
@@ -65,7 +62,8 @@ const Register = () => {
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-100">
       <div className="w-full max-w-md p-8 bg-white rounded-lg shadow-md">
-        <h2 className="text-2xl font-bold text-center mb-6">Register</h2>
+        <h2 className="text-2xl font-bold text-center mb-6">Sign Up</h2>
+
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
           <div>
             <input
@@ -111,10 +109,9 @@ const Register = () => {
             type="submit"
             className="w-full py-2 bg-blue-600 text-white font-semibold rounded-md hover:bg-blue-700 transition-colors"
           >
-            Register
+            Sign Up
           </button>
 
-          {/* 👇 Error message from backend */}
           {serverError && (
             <p className="text-red-500 text-center text-sm mt-2">{serverError}</p>
           )}
@@ -131,4 +128,4 @@ const Register = () => {
   );
 };
 
-export default Register;
+export default Signup;

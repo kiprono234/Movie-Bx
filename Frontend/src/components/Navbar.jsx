@@ -1,118 +1,93 @@
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import { Search, Menu, X } from "lucide-react";
 
-const Navbar = ({ onSearch }) => {
+const Navbar = ({ onSearch = () => {}, suggestions = [] }) => {
   const [query, setQuery] = useState("");
   const [menuOpen, setMenuOpen] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const navigate = useNavigate();
 
-  const handleSearchChange = (e) => {
-    const value = e.target.value;
-    setQuery(value);
-    onSearch(value);
+  useEffect(() => {
+    // Check login status from localStorage
+    const token = localStorage.getItem("access_token");
+    setIsLoggedIn(!!token);
+  }, []);
+
+  const handleLogout = () => {
+    localStorage.removeItem("access_token");
+    setIsLoggedIn(false);
+    navigate("/login");
   };
 
   return (
-    <nav className="w-full bg-white shadow-md fixed top-0 left-0 z-50">
-      <div className="max-w-7xl mx-auto flex justify-between items-center p-4">
-        {/* Logo */}
-        <Link to="/" className="text-2xl font-bold text-gray-900">
-          🎬 MovieBox
-        </Link>
+    <nav className="bg-gray-900 text-white p-4 flex justify-between items-center">
+      {/* Logo */}
+      <Link to="/" className="text-2xl font-bold tracking-wide">
+        🎬 MovieBx
+      </Link>
 
-        {/* Desktop Navigation */}
-        <ul className="hidden md:flex gap-8 text-gray-700 font-medium">
-          <li>
-            <Link
-              to="/"
-              className="hover:text-black transition-colors duration-200"
-            >
-              Home
-            </Link>
-          </li>
-          <li>
-            <Link
-              to="/about"
-              className="hover:text-black transition-colors duration-200"
-            >
-              About
-            </Link>
-          </li>
-          <li>
-            <Link
-              to="/watchlist"
-              className="hover:text-black transition-colors duration-200"
-            >
-              Watchlist
-            </Link>
-          </li>
-        </ul>
-
-        {/* Search Bar (Desktop) */}
-        <div className="hidden md:flex relative items-center">
-          <Search className="absolute left-3 text-gray-400" size={18} />
-          <input
-            type="text"
-            placeholder="Search movies..."
-            value={query}
-            onChange={handleSearchChange}
-            className="pl-10 pr-4 py-2 w-64 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-black transition"
-          />
-        </div>
-
-        {/* Mobile Menu Button */}
-        <button
-          onClick={() => setMenuOpen(!menuOpen)}
-          className="md:hidden p-2 text-gray-700 hover:text-black transition"
-        >
-          {menuOpen ? <X size={24} /> : <Menu size={24} />}
-        </button>
+      {/* Search Bar */}
+      <div className="hidden md:flex items-center bg-gray-800 rounded-lg px-3 py-1">
+        <Search size={18} />
+        <input
+          type="text"
+          placeholder="Search..."
+          className="bg-transparent outline-none ml-2 text-sm text-white placeholder-gray-400"
+          value={query}
+          onChange={(e) => {
+            setQuery(e.target.value);
+            onSearch(e.target.value);
+          }}
+        />
       </div>
+
+      {/* Desktop Links */}
+      <div className="hidden md:flex items-center space-x-6">
+        <Link to="/" className="hover:text-blue-400">Home</Link>
+        <Link to="/watchlist" className="hover:text-blue-400">Watchlist</Link>
+
+        {!isLoggedIn ? (
+          <>
+            <Link to="/signup" className="hover:text-blue-400">Account</Link>
+          </>
+        ) : (
+          <button
+            onClick={handleLogout}
+            className="bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded-md"
+          >
+            Logout
+          </button>
+        )}
+      </div>
+
+      {/* Mobile Menu Button */}
+      <button
+        className="md:hidden focus:outline-none"
+        onClick={() => setMenuOpen(!menuOpen)}
+      >
+        {menuOpen ? <X size={24} /> : <Menu size={24} />}
+      </button>
 
       {/* Mobile Menu Dropdown */}
       {menuOpen && (
-        <div className="md:hidden bg-white border-t border-gray-200 shadow-md">
-          <ul className="flex flex-col gap-4 p-4 text-gray-700 font-medium">
-            <li>
-              <Link
-                to="/"
-                onClick={() => setMenuOpen(false)}
-                className="block hover:text-black transition-colors duration-200"
-              >
-                Home
-              </Link>
-            </li>
-            <li>
-              <Link
-                to="/about"
-                onClick={() => setMenuOpen(false)}
-                className="block hover:text-black transition-colors duration-200"
-              >
-                About
-              </Link>
-            </li>
-            <li>
-              <Link
-                to="/watchlist"
-                onClick={() => setMenuOpen(false)}
-                className="block hover:text-black transition-colors duration-200"
-              >
-                Watchlist
-              </Link>
-            </li>
+        <div className="absolute top-16 left-0 w-full bg-gray-800 flex flex-col items-center space-y-4 py-4 md:hidden">
+          <Link to="/" className="hover:text-blue-400" onClick={() => setMenuOpen(false)}>Home</Link>
+          <Link to="/watchlist" className="hover:text-blue-400" onClick={() => setMenuOpen(false)}>Watchlist</Link>
 
-            {/* Search on Mobile */}
-            <div className="relative">
-              <Search className="absolute left-3 top-3 text-gray-400" size={18} />
-              <input
-                type="text"
-                placeholder="Search movies..."
-                value={query}
-                onChange={handleSearchChange}
-                className="pl-10 pr-4 py-2 w-full border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-black transition"
-              />
-            </div>
-          </ul>
+          {!isLoggedIn ? (
+            <Link to="/signup" className="hover:text-blue-400" onClick={() => setMenuOpen(false)}>Account</Link>
+          ) : (
+            <button
+              onClick={() => {
+                handleLogout();
+                setMenuOpen(false);
+              }}
+              className="bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded-md"
+            >
+              Logout
+            </button>
+          )}
         </div>
       )}
     </nav>

@@ -1,8 +1,5 @@
 import React, { useEffect, useState } from "react";
 
-const API_KEY = "95fd16a4f45f509f08adf20576f923b3";
-const GENRES_API = `https://api.themoviedb.org/3/genre/movie/list?api_key=${API_KEY}&language=en-US`;
-
 export default function Categories({ onGenreSelect }) {
   const [genres, setGenres] = useState([]);
   const [selectedGenre, setSelectedGenre] = useState("All");
@@ -10,9 +7,9 @@ export default function Categories({ onGenreSelect }) {
   useEffect(() => {
     const fetchGenres = async () => {
       try {
-        const res = await fetch(GENRES_API);
+        const res = await fetch("http://localhost:5000/api/genres");
         const data = await res.json();
-        setGenres(data.genres);
+        setGenres(data);
       } catch (error) {
         console.error("Error fetching genres:", error);
       }
